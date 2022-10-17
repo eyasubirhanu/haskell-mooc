@@ -79,7 +79,12 @@ instance Functor BinTree where
 -- is a binary search tree.
 
 isBST :: Ord a => BinTree a -> Bool
-isBST = error "TODO: define isBST"
+isBST Empty = True
+isBST (Bin v l r) = allValues (<= l) v && allValues (>= l) r && isBST v && isBST r
+  where 
+    allValues :: (a -> Bool) -> BinTree a -> Bool
+    allValues _x Empty = True 
+    allValues x (Bin v l r) = allValues x v  &&   x l  && allValues x r
 
 -- Task HigherOrder-5.
 --
@@ -178,7 +183,7 @@ labelTree = flip labelTree' [1..]
 -- Bin Empty (1,'H') (Bin Empty (42,'a') Empty)
 --
 labelTree' :: BinTree a -> [b] -> BinTree (a, b)
-labelTree' = error "TODO: define labelTree'"
+labelTree' t xs = fst $ go xs t
 
 -- Task HigherOrder-12.
 --
@@ -205,11 +210,15 @@ labelTree' = error "TODO: define labelTree'"
 -- "Has"
 --
 take :: Int -> [a] -> [a]
-take _ []       = []
-take n (x : xs)
-  | n > 0     = x : take (n - 1) xs
-  | otherwise = []
+take = flip go
+  where
+    go :: [a] -> Int -> [a]
+    go = foldr f $ const []
 
+    f :: a -> (Int -> [a]) -> Int -> [a]
+    f a r n
+        | n <= 0    = []
+        | otherwise = a : r (n - 1)
 -- Task HigherOrder-14.
 --
 -- If you succeeded in defining 'take' in terms of 'foldr',
@@ -223,7 +232,9 @@ take n (x : xs)
 -- "Haskell"
 --
 myFoldl :: (b -> a -> b) -> b -> [a] -> b
-myFoldl = error "TODO: implement myFoldl"
+myFoldl f z xs = foldr step id xs z
+    where step x g a = g (f a x)
+
   
 -- Task HigherOrder-15.
 --
