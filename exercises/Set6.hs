@@ -197,15 +197,17 @@ simplify (RationalNumber a b) = RationalNumber (div a g) (div b g)
 --   signum (RationalNumber 0 2)             ==> RationalNumber 0 1
 
 instance Num RationalNumber where
-  p + q = todo
-  (RationalNumber pn pd) + (RationalNumber qn qd) 
-  p * q = todo
-  (RationalNumber pn pd) * (RationalNumber qn qd)
-  abs q = todo
-  signum q = todo
-  fromInteger x = todo
-  negate q = todo
-
+  -- p + q = todo
+  -- (RationalNumber pn pd) + (RationalNumber qn qd) 
+  -- p * q = todo
+  -- (RationalNumber pn pd) * (RationalNumber qn qd)
+  -- abs q = todo
+  -- signum q = todo
+  -- fromInteger x = todo
+  -- negate q = todo
+  (RationalNumber pn pd) + (RationalNumber qn qd) = simplify (RationalNumber (pn*qd + pd*qn) (pd*qd))
+  (RationalNumber pn pd) * (RationalNumber qn qd) = simplify (RationalNumber (pn*qn) (pd*qd))
+  abs (RationalNumber n d) = RationalNumber (abs n) (abs d)
 ------------------------------------------------------------------------------
 -- Ex 11: a class for adding things. Define a class Addable with a
 -- constant `zero` and a function `add`. Define instances of Addable
