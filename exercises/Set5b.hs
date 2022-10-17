@@ -224,4 +224,9 @@ search :: Eq a => a -> Tree a -> Maybe [Step]
 search _val Empty = Nothing
 search val (Node v l r)
   | val == v = Just []
-  | otherwise = 
+  | otherwise = resolve (search val l) (search val r)
+    where
+      resolve :: Maybe [Step] -> Maybe [Step] -> Maybe [Step]
+      resolve Nothing (Just rp) = Just (StepR:rp)
+      resolve (Just lp) Nothing = Just (StepL:lp)
+      resolve Nothing Nothing = Nothing
