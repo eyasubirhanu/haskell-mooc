@@ -56,7 +56,7 @@ twoBananas = MkShoppingEntry "Banana" 1.1 2
 --   totalPrice twoBananas   ==> 2.2
 
 totalPrice :: ShoppingEntry -> Double
-totalPrice(MkShoppingEntry _n p c)= p * fromIntegral c
+totalPrice (MkShoppingEntry _a b c) = b * fromIntegral c
 
 -- buyOneMore should increment the count in an entry by one
 
@@ -64,7 +64,7 @@ totalPrice(MkShoppingEntry _n p c)= p * fromIntegral c
 --   buyOneMore twoBananas    ==> MkShoppingEntry "Banana" 1.1 3
 
 buyOneMore :: ShoppingEntry -> ShoppingEntry
-buyOneMore (MkShoppingEntry n p c)= MkShoppingEntry n p (c+1)
+buyOneMore (MkShoppingEntry a b c)= MkShoppingEntry a b (c+1) 
 ------------------------------------------------------------------------------
 -- Ex 4: define a datatype Person, which should contain the age (an
 -- Int) and the name (a String) of a person.
@@ -77,7 +77,7 @@ data Person = MKPerson Int String
 
 -- fred is a person whose name is Fred and age is 90
 fred :: Person
-fred= MKPerson 90 "fred"
+fred =MKPerson 90 "fred"
 
 
 
@@ -222,7 +222,7 @@ rgb Blue = [0,0,1]
 rgb (Mix c1 c2) = map s $ (zip (rgb c1) (rgb c2))
   where s = \(a,b)->(a+b)/2
 
-rgb (Invert color) = map (1 -) (rgb color)
+rgb (Invert color) = map (1-) (rgb color)
 
 ------------------------------------------------------------------------------
 -- Ex 9: define a parameterized datatype OneOrTwo that contains one or
@@ -346,10 +346,14 @@ inc (O b) = I b
 inc (I b) = O (inc b)
 
 prettyPrint :: Bin -> String
-prettyPrint = todo
+prettyPrint End = ""
+prettyPrint (O b) = prettyPrint b ++ "0"
+prettyPrint (I b) = prettyPrint b ++ "1"
 
 fromBin :: Bin -> Int
-fromBin = todo
+fromBin End = 0
+fromBin (O b) = fromBin b * 2
+fromBin (I b) = fromBin b * 2 + 1
 
 toBin :: Int -> Bin
 toBin = todo
