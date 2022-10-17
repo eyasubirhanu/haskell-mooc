@@ -132,6 +132,8 @@ insert x (Bin l y r)
 -- False
 --
 -- TODO: define all
+all :: Foldable t => (a -> Bool) -> t a -> Bool
+all p = foldr (\x b -> p x && b) True
 
 -- Task HigherOrder-8.
 --
